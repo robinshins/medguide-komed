@@ -1,0 +1,186 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 溫齋 — no next/font yet: the --font-* vars are defined here with system stacks so
+   the token stacks (`var(--font-sans), …`) always resolve. When Nanum Myeongjo is
+   wired via next/font later, its html-level class overrides these. */
+:root {
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', Pretendard,
+               'Malgun Gothic', sans-serif;
+  --font-display: 'Nanum Myeongjo', AppleMyungjo, Batang, serif;
+  --font-mono: ui-monospace, SFMono-Regular, monospace;
+}
+
+html { -webkit-font-smoothing: antialiased; }
+body { background: var(--surface-page); color: var(--ink-base); }
+::selection { background: var(--brand-100); }
+
+/* ==========================================================================
+   .article-content — the generated-article typography system.
+   The generator emits exactly this tag vocabulary and nothing else:
+     h2 h3 p strong em ul ol li a blockquote table thead tbody tr th td hr
+     plus <ul class="checklist">
+   Every value comes from --* vars projected by src/design/tailwind-plugin.ts,
+   so re-theming a site means editing tokens.ts only.
+
+   PER-SITE (Onjae): book/letterpress reading. Serif body, indented follow-on
+   paragraphs, section rules ABOVE h2, a vermilion square before h3, quotes
+   framed by top+bottom rules, fully ruled tables, dashed-rule checklist,
+   a ※ mark instead of an hr line. No gradients, shadows, boxes or pills.
+   ========================================================================== */
+.article-content {
+  max-width: var(--article-measure);
+  font-family: 'Nanum Myeongjo', AppleMyungjo, Batang, serif;
+}
+
+/* Section heads carry a hairline rule ABOVE — chapters in a bound book. */
+.article-content h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--ink-base);
+  letter-spacing: 0.02em;
+  line-height: 1.45;
+  margin-top: 4.5rem;
+  margin-bottom: 1.5rem;
+  border-top: 1px solid var(--line-strong);
+  padding-top: 1.375rem;
+}
+.article-content h2:first-child { margin-top: 0; }
+
+/* Hospital heads: plain serif bold preceded by an 8px 낙관-red square. */
+.article-content h3 {
+  font-size: 1.1875rem;
+  font-weight: 700;
+  color: var(--ink-base);
+  letter-spacing: 0.01em;
+  line-height: 1.5;
+  margin-top: 2.75rem;
+  margin-bottom: 1rem;
+}
+.article-content h3::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: var(--accent-500);
+  margin-right: 0.625rem;
+  vertical-align: 0.125em;
+}
+.article-content h2 + h3 { margin-top: 1.75rem; }
+
+/* Book paragraphs: follow-on paragraphs indent instead of gapping. */
+.article-content p {
+  font-size: var(--article-size);
+  line-height: var(--article-leading);
+  color: var(--ink-muted);
+  margin: 0;
+}
+.article-content p + p {
+  margin-top: 0.5rem;
+  text-indent: 1em;
+}
+
+.article-content strong { color: var(--ink-base); font-weight: 700; }
+/* A leading <strong> acts as a run-in label — seal red, no box. */
+.article-content p > strong:first-child {
+  color: var(--accent-700);
+  letter-spacing: 0.02em;
+}
+
+/* 방점(傍点) emphasis — dots above the run instead of italics. */
+.article-content em {
+  font-style: normal;
+  -webkit-text-emphasis: filled dot var(--accent-400);
+  text-emphasis: filled dot var(--accent-400);
+  -webkit-text-emphasis-position: over right;
+  text-emphasis-position: over right;
+}
+
+.article-content a {
+  color: var(--accent-600);
+  text-decoration: underline dotted;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+.article-content a:hover { color: var(--accent-700); text-decoration-style: solid; }
+
+.article-content ul, .article-content ol { margin: 1.25rem 0 1.75rem 1.375rem; }
+.article-content li {
+  margin-bottom: 0.625rem;
+  color: var(--ink-muted);
+  line-height: 1.9;
+}
+.article-content li::marker { color: var(--brand-600); }
+
+/* Review quotes: centered, framed by rules above AND below. No bar, no fill. */
+.article-content blockquote {
+  margin: 2.5rem auto;
+  padding: 1.5rem 1.25rem;
+  max-width: 52ch;
+  text-align: center;
+  color: var(--ink-muted);
+  font-style: normal;
+  border-top: 1px solid var(--line-base);
+  border-bottom: 1px solid var(--line-base);
+}
+.article-content blockquote p { margin: 0; }
+.article-content blockquote p + p { margin-top: 0.5rem; text-indent: 0; }
+
+/* Fully ruled table — 1px 괘선 all around, serif header on sunk hanji. */
+.article-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2rem 0;
+  font-size: 0.9375rem;
+  border: 1px solid var(--line-base);
+}
+.article-content th {
+  text-align: left;
+  padding: 0.75rem 0.875rem;
+  background: var(--surface-sunk);
+  color: var(--ink-base);
+  font-weight: 700;
+  font-size: 0.875rem;
+  letter-spacing: 0.02em;
+  border: 1px solid var(--line-base);
+}
+.article-content td {
+  padding: 0.75rem 0.875rem;
+  border: 1px solid var(--line-base);
+  color: var(--ink-muted);
+}
+.article-content tbody tr:hover { background: var(--surface-card); }
+
+/* Checklist: no boxes — an interpunct marker and dashed rules between items. */
+.article-content ul.checklist { list-style: none; margin: 1.5rem 0 2rem 0; }
+.article-content ul.checklist li {
+  position: relative;
+  margin: 0;
+  padding: 0.875rem 0.25rem 0.875rem 1.625rem;
+  border-bottom: 1px dashed var(--line-base);
+}
+.article-content ul.checklist li:first-child { border-top: 1px dashed var(--line-base); }
+.article-content ul.checklist li::before {
+  content: '\00B7';
+  position: absolute;
+  left: 0.25rem;
+  top: 0.6875rem;
+  color: var(--accent-500);
+  font-weight: 900;
+  font-size: 1.375rem;
+  line-height: 1;
+}
+.article-content ul.checklist li strong { color: var(--ink-base); }
+
+/* No line — a centered 참고표(※). */
+.article-content hr {
+  border: 0;
+  margin: 3.5rem 0;
+  text-align: center;
+}
+.article-content hr::before {
+  content: '\203B';
+  color: var(--ink-soft);
+  font-size: 0.9375rem;
+}
