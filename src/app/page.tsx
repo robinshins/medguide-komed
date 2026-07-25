@@ -3,13 +3,14 @@
 // 다른 사이트와 구조 자체가 다르다: 그라데이션·그림자·둥근 모서리·아이콘 타일·카드가
 // 하나도 없고, 모든 구획은 1px 괘선으로만 나눈다.
 import Link from 'next/link';
+import { getBaseUrl } from '@/lib/site-url';
 import { SITE } from '@/lib/site.config';
 import { getLatestArticles } from '@/lib/articles';
 import { SealStamp, DoubleRule } from '@/app/components/decor/SealStamp';
 
 export const revalidate = 21600;
 
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || `https://${SITE.domain}`;
+const baseUrl = getBaseUrl();
 
 const HANJA_NUM = ['一', '二', '三', '四'];
 
