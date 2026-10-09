@@ -4,6 +4,7 @@ import type { SiteConfig } from './site.types';
 // no shadow, no rounded corners. The one site that pays for a Korean webfont.
 export const SITE: SiteConfig = {
   key: 'komed',
+  gaId: 'G-4X9R3V3NBL',
 
   categoryKo: '한의원',
   siteName: '온재 한방안내',
